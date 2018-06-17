@@ -170,7 +170,7 @@ function eliminar(id,rowInd){
 
 //Leer documento
 var tabla = document.getElementById('tabla');
-db.collection("eventos").onSnapshot((querySnapshot) => {
+db.collection("eventos").orderBy('date','desc').onSnapshot((querySnapshot) => {
     tabla.innerHTML = '';
     var count = 0;
     querySnapshot.forEach((doc) => {
