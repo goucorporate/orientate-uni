@@ -21,9 +21,11 @@ function limpiarModal(){
 function nuevo(){
   $("#myModal").modal('show');
   limpiarModal();
+  $('#myModalTitle').html('Nuevo Evento');
   var btnAceptar = document.getElementById('btnAceptar');
+  var myForm = document.getElementById('myForm');
   btnAceptar.innerHTML = 'Agregar';
-  btnAceptar.onclick = agregar;
+  myForm.onsubmit = agregar;
 }
 
 //cargar contenido a myModal
@@ -48,9 +50,13 @@ function editar(id, rowInd){
   $('#enlace').val(enlace);
   $('#facultades').selectpicker('val',fac_names.split(" "));
 
+  $('#myModalTitle').html('Editando Evento');
   var btnAceptar = document.getElementById('btnAceptar');
+  var myForm = document.getElementById('myForm');
   btnAceptar.innerHTML = 'Guardar';
-  btnAceptar.onclick = function(){
+  myForm.onsubmit = function(event){
+    event.preventDefault();
+
     var userRef = db.collection('eventos').doc(id);
 
     var titulo = $('#titulo').val();
@@ -99,6 +105,7 @@ function editar(id, rowInd){
 
 //agregar documento
 function agregar(event){
+  event.preventDefault();
   var titulo = $('#titulo').val();
   var descripcion = $('#descripcion').val();
   var lugar  = $('#lugar').val();
@@ -143,12 +150,21 @@ function agregar(event){
 }
 
 //borrar documentos
-function eliminar(id){
-  db.collection("eventos").doc(id).delete().then(function(){
-    console.log("Document succesfully deleted");
-  }).catch(function(error){
-    console.error("Error removing document: ", error);
-  });
+function eliminar(id,rowInd){
+  $('#myModal2').modal('show');
+  var tabla = document.getElementById('tabla');
+  var titulo = tabla.rows[rowInd].cells[0].innerHTML;
+  $('#tituloEliminar').html(titulo);
+  var btnEliminar = document.getElementById('btnEliminar');
+  btnEliminar.onclick = function(){
+    $("#myModal2").modal('hide');
+
+    db.collection("eventos").doc(id).delete().then(function(){
+      console.log("Document succesfully deleted");
+    }).catch(function(error){
+      console.error("Error removing document: ", error);
+    });
+  }
 }
 
 
@@ -169,7 +185,7 @@ db.collection("eventos").onSnapshot((querySnapshot) => {
           <td>${doc.data().horario}</td>
           <td>${doc.data().enlace}</td>
 
-          <td><button class="btn btn-danger" onclick="eliminar('${doc.id}')">Eliminar</button></td>
+          <td><button class="btn btn-danger" onclick="eliminar('${doc.id}',${count})">Eliminar</button></td>
           <td><button class="btn btn-warning" onclick="editar('${doc.id}',${count})">Editar</button></td>
         </tr>
         `;
