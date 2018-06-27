@@ -49,7 +49,7 @@ function getAllUsers(){
   firebase.auth().currentUser.getIdToken(true)
   .then((idToken) => {
     $.getJSON(
-      'https://desolate-hollows-26219.herokuapp.com/admin/usuarios?idToken='+idToken,
+      'http://localhost:5000/admin/usuarios?idToken='+idToken,
       (data, status) => {
         if(status == 'success' && data){
           if(data.users){
@@ -102,7 +102,7 @@ function agregar(event){
   firebase.auth().currentUser.getIdToken(true)
   .then((idToken) => {
     $.post(
-      'https://desolate-hollows-26219.herokuapp.com/admin/usuario',
+      'http://localhost:5000/admin/usuario',
       {
         idToken: idToken,
         email: email,
@@ -132,7 +132,7 @@ function editarRol(uid,email,isAdmin){
     firebase.auth().currentUser.getIdToken(true)
     .then((idToken) => {
       $.post(
-        'https://desolate-hollows-26219.herokuapp.com/admin/setAdmin',
+        'http://localhost:5000/admin/setAdmin',
         {
           idToken: idToken,
           uid: uid,
@@ -161,7 +161,7 @@ function eliminarUsuario(uid,email){
     firebase.auth().currentUser.getIdToken(true)
     .then((idToken) => {
       $.post(
-        'https://desolate-hollows-26219.herokuapp.com/admin/usuario/remove',
+        'http://localhost:5000/admin/usuario/remove',
         {
           idToken: idToken,
           uid: uid
