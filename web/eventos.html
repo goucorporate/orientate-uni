@@ -6,20 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Optional JavaScript -->
 
-    <title>Panel de Orientate UNI</title>
+    <title>Orientate UNI - Eventos</title>
+    <link rel="icon" href="icons/favicon.ico" />
 
     <!-- Datepicker -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
     <!-- Selectpicker -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
     <!-- Firestore -->
@@ -30,18 +31,50 @@
     <link rel="stylesheet" type="text/css" href="css/app.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>Eventos</h1>
+    <!-- Navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Oriéntate UNI</a>
+        </div>
 
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+          <ul class="nav navbar-nav">
+            <li id="eventosLink"><a href="#">Eventos<span class="sr-only">(current)</span></a></li>
+            <li id="usuariosLink"><a href="usuarios.html">Usuarios<span class="sr-only">(current)</span></a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li id="loginLink"><a href="login.html">Iniciar Sesión</a></li>
+            <li id="emailLogged"><a id="emailaddress" href="#"></a></li>
+            <li id="logoutLink"><a href="#">Cerrar Sesión</a></li>
+          </ul>
+
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container -->
+    </div>
+
+    <!-- content -->
+    <div class="container-fluid" id="eventos">
+      <h1>Eventos</h1>
       <button type="button" class="btn btn-primary" onclick="nuevo()">Nuevo evento</button>
       <div class="spacer"></div>
       <div class="table-responsive">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover" id="tabla-eventos">
           <thead>
             <tr>
               <th scope="col">Título</th>
               <th scope="col">Descripción</th>
-              <th scope="col">Facultades</th>
+              <th scope="col" class="col-md-1">Facultades</th>
               <th scope="col">Lugar</th>
               <th scope="col">Fecha</th>
               <th scope="col">Horario</th>
@@ -147,6 +180,6 @@
           clearBtn: true
       });
     </script>
-    <script src="js/app.js"></script>
+    <script src="js/eventos.js"></script>
   </body>
 </html>

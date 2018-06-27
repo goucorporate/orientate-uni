@@ -1,11 +1,68 @@
 firebase.initializeApp({
-  apiKey: "AIzaSyDHxUDcjemME87g5c4rH7SnaIskVYDSWJ0",
-  authDomain: "orientate-uni-e277e.firebaseapp.com",
-  projectId: "orientate-uni-e277e"
+  apiKey: "<YOUR FIREBASE API KEY>",
+  authDomain: "<YOUR FIREBASE AUTH DOMAIN>",
+  projectId: "<YOUR FIREBASE PROJECT ID>"
 });
 
 // Initialize Cloud Firestore through Firebase
 var db = firebase.firestore();
+
+var eventosLink = document.getElementById('eventosLink');
+var loginLink = document.getElementById('loginLink');
+var logoutLink = document.getElementById('logoutLink');
+var emailLogged = document.getElementById('emailLogged');
+var emailaddress = document.getElementById('emailaddress');
+var eventos = document.getElementById('eventos');
+var unsubscribe;
+
+logoutLink.addEventListener('click', e => {
+  firebase.auth().signOut();
+});
+
+function showUI(email, isAdmin){
+  if(email){
+    loginLink.style.display = 'none';
+    emailaddress.innerHTML = email;
+    if(!isAdmin)
+      usuariosLink.style.display = 'none';
+  }else{
+    window.location.replace("index.html");
+  }
+}
+
+firebase.auth().onAuthStateChanged(function(user){
+  if(user){
+    console.log('logueado');
+    var email = user.email;
+    user.getIdToken(true)
+    .then((idToken) => {
+      // Parse the ID token.
+      const payload = JSON.parse(b64DecodeUnicode(idToken.split('.')[1]));
+      // Confirm the user is an Admin.
+      if (!!payload['admin']) {
+        showUI(email, true);
+      }else{
+        showUI(email, false);
+      }
+      leerEventos();
+    })
+    .catch((error) => {
+      console.log(error);
+      showUI(email, false);
+      leerEventos();
+    })
+  }else{
+    // User is signed out
+    detenerLectura();
+  }
+});
+
+function b64DecodeUnicode(str) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
 
 //limpiar myModal
 function limpiarModal(){
@@ -167,28 +224,35 @@ function eliminar(id,rowInd){
   }
 }
 
+function leerEventos(){
+  //Leer documento
+  var tabla = document.getElementById('tabla');
+  unsubscribe = db.collection("eventos").orderBy('date','desc').onSnapshot((querySnapshot) => {
+      tabla.innerHTML = '';
+      var count = 0;
+      querySnapshot.forEach((doc) => {
+          console.log(`${doc.id} => ${doc.data()}`);
+          tabla.innerHTML += `
+          <tr>
+            <td>${doc.data().titulo}</td>
+            <td>${doc.data().descripcion}</td>
+            <td>${doc.data().fac_names}</td>
+            <td>${doc.data().lugar}</td>
+            <td>${doc.data().fecha}</td>
+            <td>${doc.data().horario}</td>
+            <td>${doc.data().enlace}</td>
+            <td><button class="btn btn-danger" onclick="eliminar('${doc.id}',${count})">Eliminar</button></td>
+            <td><button class="btn btn-warning" onclick="editar('${doc.id}',${count})">Editar</button></td>
+          </tr>
+          `;
+          count++;
+      });
+  });
+}
 
-//Leer documento
-var tabla = document.getElementById('tabla');
-db.collection("eventos").orderBy('date','desc').onSnapshot((querySnapshot) => {
-    tabla.innerHTML = '';
-    var count = 0;
-    querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-        tabla.innerHTML += `
-        <tr>
-          <td>${doc.data().titulo}</td>
-          <td>${doc.data().descripcion}</td>
-          <td>${doc.data().fac_names}</td>
-          <td>${doc.data().lugar}</td>
-          <td>${doc.data().fecha}</td>
-          <td>${doc.data().horario}</td>
-          <td>${doc.data().enlace}</td>
-
-          <td><button class="btn btn-danger" onclick="eliminar('${doc.id}',${count})">Eliminar</button></td>
-          <td><button class="btn btn-warning" onclick="editar('${doc.id}',${count})">Editar</button></td>
-        </tr>
-        `;
-        count++;
-    });
-});
+function detenerLectura(){
+  if(unsubscribe){
+    console.log("Se detiene escucha");
+    unsubscribe();
+  }
+}
