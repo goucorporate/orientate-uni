@@ -1,8 +1,8 @@
 // Initialize Firebase
 var config = {
-  apiKey: "<YOUR FIREBASE API KEY>",
-  authDomain: "<YOUR FIREBASE AUTH DOMAIN>",
-  projectId: "<YOUR FIREBASE PROJECT ID>"
+  apiKey: "AIzaSyDHxUDcjemME87g5c4rH7SnaIskVYDSWJ0",
+  authDomain: "orientate-uni-e277e.firebaseapp.com",
+  projectId: "orientate-uni-e277e"
 };
 firebase.initializeApp(config);
 

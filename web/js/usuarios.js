@@ -1,7 +1,7 @@
 firebase.initializeApp({
-  apiKey: "<YOUR FIREBASE API KEY>",
-  authDomain: "<YOUR FIREBASE AUTH DOMAIN>",
-  projectId: "<YOUR FIREBASE PROJECT ID>"
+  apiKey: "AIzaSyDHxUDcjemME87g5c4rH7SnaIskVYDSWJ0",
+  authDomain: "orientate-uni-e277e.firebaseapp.com",
+  projectId: "orientate-uni-e277e"
 });
 
 // Initialize Cloud Firestore through Firebase
@@ -49,7 +49,7 @@ function getAllUsers(){
   firebase.auth().currentUser.getIdToken(true)
   .then((idToken) => {
     $.getJSON(
-      'http://localhost:5000/admin/usuarios?idToken='+idToken,
+      'http://localhost:8080/admin/usuarios?idToken='+idToken,
       (data, status) => {
         if(status == 'success' && data){
           if(data.users){
@@ -102,7 +102,7 @@ function agregar(event){
   firebase.auth().currentUser.getIdToken(true)
   .then((idToken) => {
     $.post(
-      'http://localhost:5000/admin/usuario',
+      'http://localhost:8080/admin/usuario',
       {
         idToken: idToken,
         email: email,
@@ -132,7 +132,7 @@ function editarRol(uid,email,isAdmin){
     firebase.auth().currentUser.getIdToken(true)
     .then((idToken) => {
       $.post(
-        'http://localhost:5000/admin/setAdmin',
+        'http://localhost:8080/admin/setAdmin',
         {
           idToken: idToken,
           uid: uid,
@@ -161,7 +161,7 @@ function eliminarUsuario(uid,email){
     firebase.auth().currentUser.getIdToken(true)
     .then((idToken) => {
       $.post(
-        'http://localhost:5000/admin/usuario/remove',
+        'http://localhost:8080/admin/usuario/remove',
         {
           idToken: idToken,
           uid: uid
